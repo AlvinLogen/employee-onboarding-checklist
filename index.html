@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Onboarding Checklist</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="app-container">
+        <!--Header Section-->
+        <header class="ap-header">
+            <h1>Employee Onboarding Checklist</h1>
+            <p class="subtitle">Welcome aboard! Complete these tasks during your first week.</p>
+        </header>
+
+        <!--Progress Section-->
+        <section class="progress-section" aria-label="Task completion progress">
+            <div class="progress-info">
+                <span id="progress-text">0 of 0 tasks complete</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Onboarding progress">
+                <div class="progress-bar-fill" id="progress-bar-fill"></div>
+            </div>
+        </section>
+
+        <!--Controls Section-->
+        <section class="controls-section" aria-label="Checklist controls">
+            <div class="filter-group">
+                <label for="filter-select" class="visually-hidden">Filter tasks</label>
+                <select id="filter-select">
+                    <option value="all">Show All Tasks</option>
+                    <option value="incomplete">Show Incomplete</option>
+                    <option value="complete">Show Completed</option>
+                </select>
+            </div>
+            <button id="reset-btn" class="btn btn-reset">Reset All</button>
+        </section>
+
+        <!--Checklist Section-->
+        <main id="checklist-container" aria-label="Onboarding tasks">
+            <!--Categories and tasks will be rendered here by Javascript-->
+        </main>
+
+        <!--Footer-->
+        <footer class="app-footer">
+            <p>Employee Onboarding Checklist App</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

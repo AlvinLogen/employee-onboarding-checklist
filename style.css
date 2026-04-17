@@ -1,0 +1,241 @@
+/* ========================================
+   CSS RESET + BASE STYLES
+   ======================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f0f2f5;
+    color: #1a1a2e;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ========================================
+   LAYOUT
+   ======================================== */
+
+.app-container {
+    max-width: 720px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.app-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.app-header h1 {
+    font-size: 1.8rem;
+    color: #16213e;
+    margin-bottom: 0.25rem;
+}
+
+.subtitle {
+    color: #555;
+    font-size: 1rem;
+}
+
+/* ========================================
+   PROGRESS BAR
+   ======================================== */
+
+.progress-section {
+    margin-bottom: 1.5rem;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 24px;
+    background-color: #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4caf50, #2e7d32);
+    border-radius: 12px;
+    transition: width 0.4s ease;
+}
+
+/* ========================================
+   CONTROLS
+   ======================================== */
+
+.controls-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+#filter-select {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+}
+
+#filter-select:focus {
+    outline: 2px solid #4caf50;
+    outline-offset: 2px;
+}
+
+.btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-reset {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.btn-reset:hover {
+    background-color: #c0392b;
+}
+
+.btn-reset:focus {
+    outline: 2px solid #e74c3c;
+    outline-offset: 2px;
+}
+
+/* ========================================
+   CHECKLIST CATEGORIES
+   ======================================== */
+
+.category {
+    margin-bottom: 1.5rem;
+}
+
+.category-title {
+    font-size: 1.15rem;
+    color: #16213e;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #4caf50;
+    margin-bottom: 0.75rem;
+}
+
+/* ========================================
+   TASK ITEMS
+   ======================================== */
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border: 1px solid #e0e0e0;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.task-item:hover {
+    background-color: #f9f9f9;
+}
+
+.task-item.completed {
+    background-color: #f0faf0;
+    opacity: 0.75;
+}
+
+.task-item.completed .task-label {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #4caf50;
+}
+
+.task-checkbox:focus {
+    outline: 2px solid #4caf50;
+    outline-offset: 2px;
+}
+
+.task-label {
+    font-size: 0.95rem;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.app-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    color: #888;
+    font-size: 0.85rem;
+}
+
+/* ========================================
+   ACCESSIBILITY — VISUALLY HIDDEN
+   ======================================== */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 480px) {
+    .app-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .controls-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-reset {
+        width: 100%;
+    }
+}

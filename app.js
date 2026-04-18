@@ -1,5 +1,216 @@
-//Employee Onboarding Checklist App
-//Sprint 2 - Javascript DOM Manipulation
+const checklistData = [
+    //IT Setup
+    {
+        id: 1,
+        category: 'IT Setup',
+        description: 'Collect laptop from IT department',
+        completed: false
+    },
+    {
+        id: 2,
+        category: 'IT Setup',
+        description: 'Set up email acount and calendar',
+        completed: false
+    },
+    {
+        id: 3,
+        category: 'IT Setup',
+        description: 'Install required software (IDE, Slack, VPN)',
+        completed: false
+    },
+    {
+        id: 4,
+        category: 'IT Setup',
+        description: 'Configure two-factor authentication',
+        completed: false
+    },
+    {
+        id: 5,
+        category: 'IT Setup',
+        description: 'Connect to office Wi-Fi and printer',
+        completed: false
+    },
+    //HR Paperwork
+    {
+        id: 6,
+        category: 'HR Paperwork',
+        description: 'Submit signed employment contract',
+        completed: false
+    },
+    {
+        id: 7,
+        category: 'HR Paperwork',
+        description: 'Complete tax forms (P46 / W-4)',
+        completed: false
+    },
+     {
+        id: 8,
+        category: 'HR Paperwork',
+        description: 'Provide bank details for payroll',
+        completed: false
+    },
+    {
+        id: 9,
+        category: 'HR Paperwork',
+        description: 'Review employee handbook and sign acknowledgement',
+        completed: false
+    },
+    {
+        id: 10,
+        category: 'HR Paperwork',
+        description: 'Upload profile photo for company directive',
+        completed: false
+    },
+    //Team Introductions
+    {
+        id: 11,
+        category: 'Team Introductions',
+        description: 'Meet your direct manager for 1:1 welcome chat',
+        completed: false
+    },
+    {
+        id: 12,
+        category: 'Team Introductions',
+        description: 'Attend team standup meeting',
+        completed: false
+    },
+    {
+        id: 13,
+        category: 'Team Introductions',
+        description: 'Have lunch with your assigned onboarding buddy',
+        completed: false
+    },
+     {
+        id: 14,
+        category: 'Team Introductions',
+        description: 'Introduce yourself in the #new-joiners Slack channel',
+        completed: false
+    },
+    {
+        id: 15,
+        category: 'Team Introductions',
+        description: 'Schedule meet-and-greet with cross-functional team leads',
+        completed: false
+    }
+]
 
-//Code will be added on Night 2
-console.log('App loaded successfully')
+// ============================================
+// DOM REFERENCES — Grab elements once, reuse everywhere
+// ============================================
+
+const checklistContainer = document.getElementById('checklist-container');
+const progressBarFill = document.getElementById('progress-bar-fill');
+const progressText = document.getElementById('progress-text');
+const progressPercent = document.getElementById('progress-percent');
+const filterSelect = document.getElementById('filter-select');
+const resetBtn = document.getElementById('reset-btn');
+
+// ============================================
+// RENDER — Build the checklist UI from data
+// ============================================
+
+function renderTasks(filter = 'all'){
+    checklistContainer.innerHTML = '';
+
+    let tasksToShow;
+
+    if(filter === 'complete'){
+        tasksToShow = checklistData.filter(task => task.completed === true);
+    } else if (filter === 'incomplete'){
+        tasksToShow = checklistData.filter(task => task.completed === false)
+    } else {
+        tasksToShow = checklistData
+    }
+
+    const categories = [];
+    for (const task of tasksToShow){
+        if(!categories.includes(task.category)){
+            categories.push(task.category);
+        }
+    }
+
+    for (const category of categories){
+        const categoryDiv = document.createElement('div');
+        categoryDiv.classList.add('category');
+
+        const categoryTitle = document.createElement('h2');
+        categoryTitle.classList.add('category-title');
+        categoryTitle.textContent = category;
+        categoryDiv.appendChild(categoryTitle);
+
+        const categoryTasks = tasksToShow.filter(task => task.category === category);
+
+        // Create each task item
+        for (const task of categoryTasks){
+            const taskItem = document.createElement('div');
+            taskItem.classList.add('task-item');
+            if(task.completed){
+                taskItem.classList.add('completed');
+            }
+
+            //Create a checkbox
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.classList.add('task-checkbox');
+            checkbox.checked = task.completed;
+            checkbox.id = `task-${task.id}`;
+            checkbox.setAttribute('aria-label', task.description);
+
+            //Create a label
+            const label = document.createElement('label');
+            label.classList.add('task-label');
+            label.setAttribute('for', `task-${task.id}`);
+            label.textContent = task.description;
+
+            //Toggling event listener
+            checkbox.addEventListener('change', function() {
+                toggleTask(task.id);
+            });
+
+            //Assemble the task item
+            taskItem.appendChild(checkbox);
+            taskItem.appendChild(label);
+            categoryDiv.appendChild(taskItem);
+        }
+
+        //Add category to the container
+        checklistContainer.appendChild(categoryDiv);
+    }
+
+    updateProgress();
+}
+
+// ============================================
+// TOGGLE — Change a task's completed state
+// ============================================
+
+function toggleTask(taskId){
+    const task = checklistData.find(task => task.id === taskId);
+
+    if (task) {
+        task.completed = !task.completed;
+
+        renderTasks(filterSelect.value)
+    }
+}
+
+// ============================================
+// PROGRESS — Calculate and display completion
+// ============================================
+
+function updateProgress() {
+    const totalTasks = checklistData.length;
+    const completedTasks = checklistData.filter(task => task.completed).length;
+    const percent = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+
+    //Update the text displays
+    progressText.textContent = `${completedTasks} of ${totalTasks} tasks complete`;
+    progressPercent.textContent = `${percent}%`;
+    progressBarFill.style.width = `${percent}%`;
+
+    const progressBar = progressBarFill.parentElement;
+    progressBar.setAttribute('aria-valuenow', percent);
+    progressBar.setAttribute('aria-valuetext', `${completedTasks} of ${totalTasks} tasks comlete, ${percent} percent`);
+}
+
+renderTasks();

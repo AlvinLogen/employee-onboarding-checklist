@@ -221,6 +221,28 @@ body {
     border: 0;
 }
 
+
+/* ========================================
+   SKIP LINK — Keyboard accessibility
+   ======================================== */
+
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    z-index: 100;
+    text-decoration: none;
+    border-radius: 0 0 6px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
 /* ========================================
    RESPONSIVE
    ======================================== */
@@ -239,3 +261,17 @@ body {
         width: 100%;
     }
 }
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.empty-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #888;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+

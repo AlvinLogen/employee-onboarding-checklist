@@ -180,6 +180,16 @@ function renderTasks(filter = 'all'){
         checklistContainer.appendChild(categoryDiv);
     }
 
+    if (tasksToShow.length === 0) {
+        const emptyMessage = document.createElement('p');
+        emptyMessage.classList.add('empty-state');
+        emptyMessage.textContent = 
+            filter === 'complete' ? 'No tasks completed yet. Get started!' 
+               : filter === 'incomplete' ? 'All tasks complete - well done!'
+               : 'No tasks available.';
+            checklistContainer.appendChild(emptyMessage);
+        }
+
     updateProgress();
 }
 

@@ -8,9 +8,12 @@ Desktop.ini
 *.swp
 *.swo
 
-#Dependancies
+# Dependancies
 node_modules/
 project/
+
+# Other
+learning-journal.md
 
 # Environment Files
 .env

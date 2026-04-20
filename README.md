@@ -24,7 +24,7 @@ An interactive checklist application for new employee onboarding. Built with van
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/employee-onboarding-checklist.git
+   git clone https://github.com/AlvinLogen/employee-onboarding-checklist.git
    ```
 2. Open `index.html` in your browser
 

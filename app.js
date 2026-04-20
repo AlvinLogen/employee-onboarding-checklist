@@ -190,6 +190,8 @@ function toggleTask(taskId){
     if (task) {
         task.completed = !task.completed;
 
+        saveTolocalStorage();
+
         renderTasks(filterSelect.value)
     }
 }
@@ -213,4 +215,67 @@ function updateProgress() {
     progressBar.setAttribute('aria-valuetext', `${completedTasks} of ${totalTasks} tasks comlete, ${percent} percent`);
 }
 
-renderTasks();
+// ============================================
+// EVENT LISTENERS — Wire up controls
+// ============================================
+
+filterSelect.addEventListener('change', function () {
+    renderTasks(filterSelect.value);
+});
+
+resetBtn.addEventListener('click', function() {
+    const confirmReset = confirm('Are you sure you want to reset all tasks?');
+
+    if(confirmReset){
+        checklistData.forEach(function (task){
+            task.completed = false;
+        });
+
+        filterSelect.value = 'all';
+        saveTolocalStorage();
+        renderTasks('all');
+    }
+});
+
+// ============================================
+// PERSISTENCE — Save and load from localStorage
+// ============================================
+
+function saveTolocalStorage(){
+    const saveData = checklistData.map(function (task){
+        return {
+            id: task.id,
+            completed: task.completed
+        }
+    });
+
+    localStorage.setItem('onboarding-checklist', JSON.stringify(saveData));
+}
+
+function loadFromlocalStorage() {
+    const saved = localStorage.getItem('onboarding-checklist');
+
+    if (saved){
+        const saveData = JSON.parse(saved);
+
+        saveData.forEach(function(savedTask){
+            const task = checklistData.find(function (t){
+                return t.id === savedTask.id;
+            });
+
+            if (task){
+                task.completed = savedTask.completed;
+            }
+        });
+    }
+}
+
+// ============================================
+// INITIALISE — Start the app
+// ============================================
+
+loadFromlocalStorage();
+renderTasks('all');
+
+
+

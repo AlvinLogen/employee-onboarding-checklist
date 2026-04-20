@@ -135,7 +135,10 @@ function renderTasks(filter = 'all'){
 
         const categoryTitle = document.createElement('h2');
         categoryTitle.classList.add('category-title');
-        categoryTitle.textContent = category;
+        
+        const allCategoryTasks = checklistData.filter(task => task.category === category);
+        const completedIncategory = allCategoryTasks.filter(task => task.completed).length;
+        categoryTitle.textContent = `${category} (${completedIncategory}/${allCategoryTasks.length})`;
         categoryDiv.appendChild(categoryTitle);
 
         const categoryTasks = tasksToShow.filter(task => task.category === category);

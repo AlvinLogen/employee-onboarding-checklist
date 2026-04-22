@@ -194,6 +194,35 @@ body {
 }
 
 /* ========================================
+   CELEBRATION STATE
+   ======================================== */
+
+.celebration {
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border: 1px solid #90caf9;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
    FOOTER
    ======================================== */
 

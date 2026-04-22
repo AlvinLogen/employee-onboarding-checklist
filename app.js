@@ -173,6 +173,20 @@ function renderTasks(filter = 'all') {
             //Assemble the task item
             taskItem.appendChild(checkbox);
             taskItem.appendChild(label);
+
+            if(task.completed && task.completedAt) {
+                const timestamp = document.createElement('span');
+                timestamp.classList.add('task-timestamp');
+
+                const completedDate = new Date(task.completedAt);
+                timestamp.textContent = completedDate.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                taskItem.appendChild(timestamp);
+            }
             categoryDiv.appendChild(taskItem);
         }
 
@@ -202,9 +216,9 @@ function toggleTask(taskId) {
 
     if (task) {
         task.completed = !task.completed;
+        task.completedAt = task.completed ? new Date().toISOString() : null;
 
         saveTolocalStorage();
-
         renderTasks(filterSelect.value)
     }
 }
@@ -272,6 +286,7 @@ resetBtn.addEventListener('click', function () {
     if (confirmReset) {
         checklistData.forEach(function (task) {
             task.completed = false;
+            task.completedAt = null;
         });
 
         filterSelect.value = 'all';
@@ -288,8 +303,9 @@ function saveTolocalStorage() {
     const saveData = checklistData.map(function (task) {
         return {
             id: task.id,
-            completed: task.completed
-        }
+            completed: task.completed,
+            completedAt: task.completedAt || null
+        };
     });
 
     localStorage.setItem('onboarding-checklist', JSON.stringify(saveData));
@@ -308,6 +324,7 @@ function loadFromlocalStorage() {
 
             if (task) {
                 task.completed = savedTask.completed;
+                task.completedAt = savedTask.completedAt || null;
             }
         });
     }

@@ -43,7 +43,7 @@ const checklistData = [
         description: 'Complete tax forms (P46 / W-4)',
         completed: false
     },
-     {
+    {
         id: 8,
         category: 'HR Paperwork',
         description: 'Provide bank details for payroll',
@@ -80,7 +80,7 @@ const checklistData = [
         description: 'Have lunch with your assigned onboarding buddy',
         completed: false
     },
-     {
+    {
         id: 14,
         category: 'Team Introductions',
         description: 'Introduce yourself in the #new-joiners Slack channel',
@@ -109,33 +109,33 @@ const resetBtn = document.getElementById('reset-btn');
 // RENDER — Build the checklist UI from data
 // ============================================
 
-function renderTasks(filter = 'all'){
+function renderTasks(filter = 'all') {
     checklistContainer.innerHTML = '';
 
     let tasksToShow;
 
-    if(filter === 'complete'){
+    if (filter === 'complete') {
         tasksToShow = checklistData.filter(task => task.completed === true);
-    } else if (filter === 'incomplete'){
+    } else if (filter === 'incomplete') {
         tasksToShow = checklistData.filter(task => task.completed === false)
     } else {
         tasksToShow = checklistData
     }
 
     const categories = [];
-    for (const task of tasksToShow){
-        if(!categories.includes(task.category)){
+    for (const task of tasksToShow) {
+        if (!categories.includes(task.category)) {
             categories.push(task.category);
         }
     }
 
-    for (const category of categories){
+    for (const category of categories) {
         const categoryDiv = document.createElement('div');
         categoryDiv.classList.add('category');
 
         const categoryTitle = document.createElement('h2');
         categoryTitle.classList.add('category-title');
-        
+
         const allCategoryTasks = checklistData.filter(task => task.category === category);
         const completedIncategory = allCategoryTasks.filter(task => task.completed).length;
         categoryTitle.textContent = `${category} (${completedIncategory}/${allCategoryTasks.length})`;
@@ -144,10 +144,10 @@ function renderTasks(filter = 'all'){
         const categoryTasks = tasksToShow.filter(task => task.category === category);
 
         // Create each task item
-        for (const task of categoryTasks){
+        for (const task of categoryTasks) {
             const taskItem = document.createElement('div');
             taskItem.classList.add('task-item');
-            if(task.completed){
+            if (task.completed) {
                 taskItem.classList.add('completed');
             }
 
@@ -166,7 +166,7 @@ function renderTasks(filter = 'all'){
             label.textContent = task.description;
 
             //Toggling event listener
-            checkbox.addEventListener('change', function() {
+            checkbox.addEventListener('change', function () {
                 toggleTask(task.id);
             });
 
@@ -183,12 +183,12 @@ function renderTasks(filter = 'all'){
     if (tasksToShow.length === 0) {
         const emptyMessage = document.createElement('p');
         emptyMessage.classList.add('empty-state');
-        emptyMessage.textContent = 
-            filter === 'complete' ? 'No tasks completed yet. Get started!' 
-               : filter === 'incomplete' ? 'All tasks complete - well done!'
-               : 'No tasks available.';
-            checklistContainer.appendChild(emptyMessage);
-        }
+        emptyMessage.textContent =
+            filter === 'complete' ? 'No tasks completed yet. Get started!'
+                : filter === 'incomplete' ? 'All tasks complete - well done!'
+                    : 'No tasks available.';
+        checklistContainer.appendChild(emptyMessage);
+    }
 
     updateProgress();
 }
@@ -197,7 +197,7 @@ function renderTasks(filter = 'all'){
 // TOGGLE — Change a task's completed state
 // ============================================
 
-function toggleTask(taskId){
+function toggleTask(taskId) {
     const task = checklistData.find(task => task.id === taskId);
 
     if (task) {
@@ -223,9 +223,39 @@ function updateProgress() {
     progressPercent.textContent = `${percent}%`;
     progressBarFill.style.width = `${percent}%`;
 
+    // Change progress bar colour based on completion percentage
+    if (percent === 100) {
+        progressBarFill.style.background = 'linear-gradient(90deg, #2196f3, #1565c0)';
+    } else if (percent >= 60) {
+        progressBarFill.style.background = 'linear-gradient(90deg, #4caf50, #2e7d32)';
+    } else if (percent >= 30) {
+        progressBarFill.style.background = 'linear-gradient(90deg, #ff9800, #e65100)';
+    } else {
+        progressBarFill.style.background = 'linear-gradient(90deg, #f44336, #c62828)'
+    }
+
+    // Show celebration when all tasks are complete
+    const existingCelebration = document.querySelector('.celebration');
+    if (existingCelebration) {
+        existingCelebration.remove();
+    }
+
+    if (percent === 100) {
+        const celebration = document.createElement('div');
+        celebration.classList.add('celebration');
+        celebration.setAttribute('role', 'alert');
+        celebration.textContent = 'Onboarding complete! You are all set for your new role.';
+
+        // Insert after the progress section
+        const progressSection = document.querySelector('.progress-section');
+        progressSection.insertAdjacentElement('afterend', celebration);
+    }
+
     const progressBar = progressBarFill.parentElement;
     progressBar.setAttribute('aria-valuenow', percent);
     progressBar.setAttribute('aria-valuetext', `${completedTasks} of ${totalTasks} tasks comlete, ${percent} percent`);
+
+
 }
 
 // ============================================
@@ -236,11 +266,11 @@ filterSelect.addEventListener('change', function () {
     renderTasks(filterSelect.value);
 });
 
-resetBtn.addEventListener('click', function() {
+resetBtn.addEventListener('click', function () {
     const confirmReset = confirm('Are you sure you want to reset all tasks?');
 
-    if(confirmReset){
-        checklistData.forEach(function (task){
+    if (confirmReset) {
+        checklistData.forEach(function (task) {
             task.completed = false;
         });
 
@@ -254,8 +284,8 @@ resetBtn.addEventListener('click', function() {
 // PERSISTENCE — Save and load from localStorage
 // ============================================
 
-function saveTolocalStorage(){
-    const saveData = checklistData.map(function (task){
+function saveTolocalStorage() {
+    const saveData = checklistData.map(function (task) {
         return {
             id: task.id,
             completed: task.completed
@@ -268,15 +298,15 @@ function saveTolocalStorage(){
 function loadFromlocalStorage() {
     const saved = localStorage.getItem('onboarding-checklist');
 
-    if (saved){
+    if (saved) {
         const saveData = JSON.parse(saved);
 
-        saveData.forEach(function(savedTask){
-            const task = checklistData.find(function (t){
+        saveData.forEach(function (savedTask) {
+            const task = checklistData.find(function (t) {
                 return t.id === savedTask.id;
             });
 
-            if (task){
+            if (task) {
                 task.completed = savedTask.completed;
             }
         });

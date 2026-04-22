@@ -4,15 +4,19 @@
 
 An interactive checklist application for new employee onboarding. Built with vanilla HTML, CSS and Javascript.
 
-# Features
+## Features
 
 - 15 onboarding tasks across 3 categories (IT Setup, HR Paperwork, Team Introductions)
-- Real-time progress bar with animated updates
+- Real-time progress bar with animated colour changes (red → orange → green → blue)
+- Per-category completion counts in section headings
 - Filter tasks by status (All / Incomplete / Completed)
+- Helpful empty state messages when filters return no results
+- Celebration message when all tasks are complete
+- Completion timestamps on each finished task
 - Reset all tasks with confirmation dialog
-- Persistent state via localStorage - progress survives page refresh
-- Fully accessible (ARIA attributes, keyboard navigation, screen reader support)
-- Responsive design - work on desktop and mobile
+- Persistent state via localStorage — progress survives page refresh
+- Fully accessible (ARIA attributes, keyboard navigation, skip link, screen reader support)
+- Responsive design — works on desktop and mobile
 
 ## Tech Stack
 
